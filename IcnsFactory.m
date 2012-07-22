@@ -19,16 +19,55 @@ UInt32 flipUInt32(UInt32 littleEndian){
 	return newNum;
 }
 
-@implementation IcnsFactory
-
-+ (NSDictionary *)iconSizes{
-    static dispatch_once_t once;
-    static NSDictionary *iconSizes;
-    dispatch_once(&once, ^{
-        iconSizes = @{@1024: @"ic10", @512: @"ic09", @256: @"ic08"};
-    });
-    return iconSizes;
+OSType osTypeForImage(NSImage *image){
+    NSUInteger width = round(image.size.width);
+    NSUInteger height = round(image.size.height);
+    if(width != height){
+        return NSNotFound;
+    }
+    switch(width){
+        case 1024: return kIconServices1024PixelDataARGB;
+        case 512: return kIconServices512PixelDataARGB;
+        case 256: return kIconServices256PixelDataARGB;
+    }
+    return NSNotFound;
 }
+
+NSData *dataForImage(NSImage *image){
+    NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithData:[image TIFFRepresentation]];
+    switch(osTypeForImage(image)){
+        case kIconServices1024PixelDataARGB:
+        case kIconServices512PixelDataARGB:
+        case kIconServices256PixelDataARGB:
+            return [bitmap representationUsingType:NSPNGFileType properties:nil];
+    }
+    return nil;
+}
+
+NSData *dataForValue(int value){
+    // TODO: the values are in the enums, I'm just not sure how to get to them
+    NSString *string = nil;
+    switch(value){
+        case kIconFamilyType:
+            string = @"icns";
+            break;
+        case kIconServices1024PixelDataARGB:
+            string = @"ic10";
+            break;
+        case kIconServices512PixelDataARGB:
+            string = @"ic09";
+            break;
+        case kIconServices256PixelDataARGB:
+            string = @"ic08";
+            break;
+            
+        default:
+            break;
+    }
+    return [string dataUsingEncoding:NSASCIIStringEncoding];
+}
+
+@implementation IcnsFactory
 
 + (BOOL)writeICNSToFile:(NSString *)filePath withImages:(NSArray *)images{
 	if([[NSFileManager defaultManager] fileExistsAtPath:filePath]){
@@ -43,25 +82,19 @@ UInt32 flipUInt32(UInt32 littleEndian){
     __block NSUInteger bodyLength = 0;
     __block NSMutableData *bodyData = [NSMutableData data];
     [images enumerateObjectsUsingBlock:^(NSImage *image, NSUInteger idx, BOOL *stop){
-        NSUInteger width = round(image.size.width);
-        NSUInteger height = round(image.size.height);
-        NSString *type = [[self iconSizes] objectForKey:@(width)];
-        if(width != height || type == nil){
-            return;
+        NSData *imageData = dataForImage(image);
+        if(imageData != nil){
+            bodyLength += [imageData length];
+            UInt32 length = flipUInt32(8 + (UInt32)[imageData length]);
+            [bodyData appendData:dataForValue(osTypeForImage(image))];
+            [bodyData appendBytes:&length length:4];
+            [bodyData appendData:imageData];
         }
-        NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithData:[image TIFFRepresentation]];
-        NSData *pngData = [bitmap representationUsingType:NSPNGFileType properties:nil];
-        bodyLength += [pngData length];
-        
-        UInt32 length = flipUInt32(8 + (UInt32)[pngData length]);
-        [bodyData appendData:[type dataUsingEncoding:NSASCIIStringEncoding]];
-        [bodyData appendBytes:&length length:4];
-        [bodyData appendData:pngData];
     }];
     
     NSMutableData *headerData = [NSMutableData data];
     UInt32 fileLength = flipUInt32(16 + (UInt32)bodyLength);
-    [headerData appendData:[@"icns" dataUsingEncoding:NSASCIIStringEncoding]];
+    [headerData appendData:dataForValue(kIconFamilyType)];
     [headerData appendBytes:&fileLength length:4];
 	[handle writeData:headerData];
 	[handle writeData:bodyData];

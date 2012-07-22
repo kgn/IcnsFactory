@@ -45,11 +45,8 @@ UInt32 flipUInt32(UInt32 littleEndian){
     [images enumerateObjectsUsingBlock:^(NSImage *image, NSUInteger idx, BOOL *stop){
         NSUInteger width = round(image.size.width);
         NSUInteger height = round(image.size.height);
-        if(width != height){
-            return;
-        }
-        NSString *type = [[self iconSizes] objectForKey:[NSNumber numberWithInteger:round(image.size.width)]];
-        if(type == nil){
+        NSString *type = [[self iconSizes] objectForKey:@(width)];
+        if(width != height || type == nil){
             return;
         }
         NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithData:[image TIFFRepresentation]];

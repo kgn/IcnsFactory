@@ -7,28 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		640AE5E815BC8BBE003695D9 /* IcnsFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 640AE5E715BC8BBE003695D9 /* IcnsFactory.m */; };
 		642386B515BC8658005E73C4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 642386B415BC8658005E73C4 /* Cocoa.framework */; };
-		642386BF15BC8658005E73C4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 642386BD15BC8658005E73C4 /* InfoPlist.strings */; };
-		642386C115BC8658005E73C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 642386C015BC8658005E73C4 /* main.m */; };
-		642386C515BC8658005E73C4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 642386C315BC8658005E73C4 /* Credits.rtf */; };
-		642386C815BC8658005E73C4 /* IFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 642386C715BC8658005E73C4 /* IFAppDelegate.m */; };
-		642386CB15BC8658005E73C4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 642386C915BC8658005E73C4 /* MainMenu.xib */; };
+		642386D515BC86DC005E73C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 642386D315BC86DC005E73C4 /* main.m */; };
+		642386DD15BC8753005E73C4 /* test in Resources */ = {isa = PBXBuildFile; fileRef = 642386DC15BC8753005E73C4 /* test */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		640AE5E615BC8BBE003695D9 /* IcnsFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IcnsFactory.h; path = ../IcnsFactory.h; sourceTree = "<group>"; };
+		640AE5E715BC8BBE003695D9 /* IcnsFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IcnsFactory.m; path = ../IcnsFactory.m; sourceTree = "<group>"; };
 		642386B015BC8658005E73C4 /* IcnsFactory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IcnsFactory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		642386B415BC8658005E73C4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		642386B715BC8658005E73C4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		642386B815BC8658005E73C4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		642386B915BC8658005E73C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		642386BC15BC8658005E73C4 /* IcnsFactory-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IcnsFactory-Info.plist"; sourceTree = "<group>"; };
-		642386BE15BC8658005E73C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		642386C015BC8658005E73C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		642386C215BC8658005E73C4 /* IcnsFactory-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IcnsFactory-Prefix.pch"; sourceTree = "<group>"; };
-		642386C415BC8658005E73C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		642386C615BC8658005E73C4 /* IFAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFAppDelegate.h; sourceTree = "<group>"; };
-		642386C715BC8658005E73C4 /* IFAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFAppDelegate.m; sourceTree = "<group>"; };
-		642386CA15BC8658005E73C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		642386D315BC86DC005E73C4 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		642386DC15BC8753005E73C4 /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; path = test; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +39,10 @@
 		642386A515BC8658005E73C4 = {
 			isa = PBXGroup;
 			children = (
-				642386BA15BC8658005E73C4 /* IcnsFactory */,
+				640AE5E615BC8BBE003695D9 /* IcnsFactory.h */,
+				640AE5E715BC8BBE003695D9 /* IcnsFactory.m */,
+				642386D315BC86DC005E73C4 /* main.m */,
+				642386DC15BC8753005E73C4 /* test */,
 				642386B315BC8658005E73C4 /* Frameworks */,
 				642386B115BC8658005E73C4 /* Products */,
 			);
@@ -63,43 +59,11 @@
 		642386B315BC8658005E73C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				642386B715BC8658005E73C4 /* AppKit.framework */,
+				642386B915BC8658005E73C4 /* Foundation.framework */,
 				642386B415BC8658005E73C4 /* Cocoa.framework */,
-				642386B615BC8658005E73C4 /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		642386B615BC8658005E73C4 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				642386B715BC8658005E73C4 /* AppKit.framework */,
-				642386B815BC8658005E73C4 /* CoreData.framework */,
-				642386B915BC8658005E73C4 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
-		642386BA15BC8658005E73C4 /* IcnsFactory */ = {
-			isa = PBXGroup;
-			children = (
-				642386C615BC8658005E73C4 /* IFAppDelegate.h */,
-				642386C715BC8658005E73C4 /* IFAppDelegate.m */,
-				642386C915BC8658005E73C4 /* MainMenu.xib */,
-				642386BB15BC8658005E73C4 /* Supporting Files */,
-			);
-			path = IcnsFactory;
-			sourceTree = "<group>";
-		};
-		642386BB15BC8658005E73C4 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				642386BC15BC8658005E73C4 /* IcnsFactory-Info.plist */,
-				642386BD15BC8658005E73C4 /* InfoPlist.strings */,
-				642386C015BC8658005E73C4 /* main.m */,
-				642386C215BC8658005E73C4 /* IcnsFactory-Prefix.pch */,
-				642386C315BC8658005E73C4 /* Credits.rtf */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,9 +118,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				642386BF15BC8658005E73C4 /* InfoPlist.strings in Resources */,
-				642386C515BC8658005E73C4 /* Credits.rtf in Resources */,
-				642386CB15BC8658005E73C4 /* MainMenu.xib in Resources */,
+				642386DD15BC8753005E73C4 /* test in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,39 +129,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				642386C115BC8658005E73C4 /* main.m in Sources */,
-				642386C815BC8658005E73C4 /* IFAppDelegate.m in Sources */,
+				642386D515BC86DC005E73C4 /* main.m in Sources */,
+				640AE5E815BC8BBE003695D9 /* IcnsFactory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		642386BD15BC8658005E73C4 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				642386BE15BC8658005E73C4 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		642386C315BC8658005E73C4 /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				642386C415BC8658005E73C4 /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		642386C915BC8658005E73C4 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				642386CA15BC8658005E73C4 /* en */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		642386CC15BC8658005E73C4 /* Debug */ = {
@@ -257,9 +192,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "IcnsFactory/IcnsFactory-Prefix.pch";
-				INFOPLIST_FILE = "IcnsFactory/IcnsFactory-Info.plist";
+				INFOPLIST_FILE = "IcnsFactory-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -269,9 +202,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "IcnsFactory/IcnsFactory-Prefix.pch";
-				INFOPLIST_FILE = "IcnsFactory/IcnsFactory-Info.plist";
+				INFOPLIST_FILE = "IcnsFactory-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -296,6 +227,7 @@
 				642386D015BC8658005E73C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

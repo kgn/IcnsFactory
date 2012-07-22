@@ -1,5 +1,5 @@
 //
-//  IFAppDelegate.h
+//  IcnsFactory.h
 //  IcnsFactory
 //
 //  Created by David Keegan on 7/22/12.
@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface IFAppDelegate : NSObject <NSApplicationDelegate>
+@interface IcnsFactory : NSObject
 
-@property (assign) IBOutlet NSWindow *window;
++ (BOOL)writeICNSToFile:(NSString *)filePath withImages:(NSArray *)images;
 
 @end

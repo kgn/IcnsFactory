@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'IcnsFactory' target in the 'IcnsFactory' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif

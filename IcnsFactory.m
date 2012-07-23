@@ -53,7 +53,9 @@ UInt32 flipUInt32(UInt32 littleEndian){
 }
 
 + (NSData *)dataForOSType:(OSType)OSType{
-    NSString *string = (__bridge NSString *)UTCreateStringForOSType(OSType);
+    CFStringRef cfstring = UTCreateStringForOSType(OSType);
+    NSString *string = [NSString stringWithString:(__bridge NSString *)cfstring];
+    CFRelease(cfstring);
     return [string dataUsingEncoding:NSASCIIStringEncoding];
 }
 

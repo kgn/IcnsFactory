@@ -9,14 +9,14 @@
 #import "IcnsFactory.h"
 
 UInt32 flipUInt32(UInt32 littleEndian){
-	UInt32 newNum = 0;
-	char *newBuff = (char *)&newNum;
-	const char *oldBuff = (const char *)&littleEndian;
-	newBuff[3] = oldBuff[0];
-	newBuff[2] = oldBuff[1];
-	newBuff[1] = oldBuff[2];
-	newBuff[0] = oldBuff[3];
-	return newNum;
+    UInt32 newNum = 0;
+    char *newBuff = (char *)&newNum;
+    const char *oldBuff = (const char *)&littleEndian;
+    newBuff[3] = oldBuff[0];
+    newBuff[2] = oldBuff[1];
+    newBuff[1] = oldBuff[2];
+    newBuff[0] = oldBuff[3];
+    return newNum;
 }
 
 @interface IcnsFactory()
@@ -27,14 +27,14 @@ UInt32 flipUInt32(UInt32 littleEndian){
 @implementation IcnsFactory
 
 + (BOOL)writeICNSToFile:(NSString *)filePath withImages:(NSArray *)images{
-	if([[NSFileManager defaultManager] fileExistsAtPath:filePath]){
+    if([[NSFileManager defaultManager] fileExistsAtPath:filePath]){
         [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-	}
+    }
     [[NSFileManager defaultManager] createFileAtPath:filePath contents:[NSData data] attributes:nil];    
-	NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:filePath];
-	if(handle == nil){
-		return NO;
-	}
+    NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+    if(handle == nil){
+        return NO;
+    }
     
     __block NSUInteger bodyLength = 0;
     NSMutableData *bodyData = [NSMutableData data];
@@ -64,7 +64,9 @@ UInt32 flipUInt32(UInt32 littleEndian){
     if(pixelsWide != pixelsHigh){
         return 0;
     }
-    if(pixelsWide == 1024 || pixelsWide == 512 || pixelsWide == 256){
+    
+    if(pixelsWide == 1024 || pixelsWide == 512 || pixelsWide == 256 ||
+       pixelsWide == 128 || pixelsWide == 48 || pixelsWide == 32 || pixelsWide == 16){
         NSData *imageData = [bitmap representationUsingType:NSPNGFileType properties:nil];
         UInt32 length = flipUInt32(8 + (UInt32)[imageData length]);
         if(pixelsWide == 1024){
@@ -73,21 +75,14 @@ UInt32 flipUInt32(UInt32 littleEndian){
             [bodyData appendData:[self dataForOSType:kIconServices512PixelDataARGB]];
         }else if(pixelsWide == 256){
             [bodyData appendData:[self dataForOSType:kIconServices256PixelDataARGB]];
+        }else{ // This works, though these sizes are suppose to be broken out in to RGB(32bit) and A(8bit)
+            [bodyData appendData:[self dataForOSType:kThumbnail32BitData]];
         }
         [bodyData appendBytes:&length length:4];
         [bodyData appendData:imageData];
         return [imageData length];
     }
     
-    // This works, though these sizes are suppose to be broken out in to RGB(32bit) and A(8bit)
-    if(pixelsWide == 128 || pixelsWide == 48 || pixelsWide == 32 || pixelsWide == 16){
-        NSData *imageData = [bitmap representationUsingType:NSPNGFileType properties:nil];
-        UInt32 length = flipUInt32(8 + (UInt32)[imageData length]);
-        [bodyData appendData:[self dataForOSType:kThumbnail32BitData]];
-        [bodyData appendBytes:&length length:4];
-        [bodyData appendData:imageData];
-        return [imageData length];
-    }
     return 0;
 }
 

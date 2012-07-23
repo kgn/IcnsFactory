@@ -19,7 +19,8 @@ int main(int argc, char *argv[]){
             [images addObject:[[NSImage alloc] initWithContentsOfFile:path]];
         }];
         
-        NSString *desktop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, NO)[0] stringByExpandingTildeInPath];
+        NSString *desktop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, NO)[0]
+                             stringByExpandingTildeInPath];
         NSString *iconPath = [desktop stringByAppendingPathComponent:@"Icon.icns"];
         [IcnsFactory writeICNSToFile:iconPath withImages:images];
         [[NSWorkspace sharedWorkspace] openFile:iconPath];

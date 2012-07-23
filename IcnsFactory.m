@@ -46,9 +46,9 @@ UInt32 flipUInt32(UInt32 littleEndian){
     UInt32 fileLength = flipUInt32(16 + (UInt32)bodyLength);
     [headerData appendData:[self dataForOSType:kIconFamilyType]];
     [headerData appendBytes:&fileLength length:4];
-	[handle writeData:headerData];
-	[handle writeData:bodyData];
-	[handle closeFile];
+    [handle writeData:headerData];
+    [handle writeData:bodyData];
+    [handle closeFile];
     return YES;
 }
 

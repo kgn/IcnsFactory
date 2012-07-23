@@ -26,7 +26,7 @@ UInt32 flipUInt32(UInt32 littleEndian){
 
 @implementation IcnsFactory
 
-+ (BOOL)writeICNSToFile:(NSString *)filePath withImages:(NSArray *)images{
++ (BOOL)writeICNSToFile:(NSString *)filePath withArrayOfImages:(NSArray *)images{
     if([[NSFileManager defaultManager] fileExistsAtPath:filePath]){
         [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
     }
@@ -50,6 +50,17 @@ UInt32 flipUInt32(UInt32 littleEndian){
     [handle writeData:bodyData];
     [handle closeFile];
     return YES;
+}
+
++ (BOOL)writeICNSToFile:(NSString *)filePath withImages:(NSImage *)firstArg, ...{
+    NSMutableArray *images = [NSMutableArray array];
+    va_list args;
+    va_start(args, firstArg);
+    for(NSImage *image = firstArg; image != nil; image = va_arg(args, NSImage *)){
+        [images addObject:image];
+    }
+    va_end(args);
+    return [self writeICNSToFile:filePath withArrayOfImages:images];
 }
 
 + (NSData *)dataForOSType:(OSType)OSType{

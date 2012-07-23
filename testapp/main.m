@@ -22,7 +22,11 @@ int main(int argc, char *argv[]){
         NSString *desktop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, NO)[0]
                              stringByExpandingTildeInPath];
         NSString *iconPath = [desktop stringByAppendingPathComponent:@"Icon.icns"];
-        [IcnsFactory writeICNSToFile:iconPath withImages:images];
+        [IcnsFactory writeICNSToFile:iconPath withArrayOfImages:images];
+        [[NSWorkspace sharedWorkspace] openFile:iconPath];
+        
+        iconPath = [desktop stringByAppendingPathComponent:@"Icon2.icns"];
+        [IcnsFactory writeICNSToFile:iconPath withImages:images[0], images[1], nil];
         [[NSWorkspace sharedWorkspace] openFile:iconPath];
     }
     return 0;

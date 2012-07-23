@@ -10,6 +10,7 @@
 
 @interface IcnsFactory : NSObject
 
-+ (BOOL)writeICNSToFile:(NSString *)filePath withImages:(NSArray *)images;
++ (BOOL)writeICNSToFile:(NSString *)filePath withImages:(NSImage *)firstArg, ...;
++ (BOOL)writeICNSToFile:(NSString *)filePath withArrayOfImages:(NSArray *)images;
 
 @end

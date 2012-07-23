@@ -19,53 +19,10 @@ UInt32 flipUInt32(UInt32 littleEndian){
 	return newNum;
 }
 
-OSType osTypeForImage(NSImage *image){
-    NSUInteger width = round(image.size.width);
-    NSUInteger height = round(image.size.height);
-    if(width != height){
-        return NSNotFound;
-    }
-    switch(width){
-        case 1024: return kIconServices1024PixelDataARGB;
-        case 512: return kIconServices512PixelDataARGB;
-        case 256: return kIconServices256PixelDataARGB;
-    }
-    return NSNotFound;
-}
-
-NSData *dataForImage(NSImage *image){
-    NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithData:[image TIFFRepresentation]];
-    switch(osTypeForImage(image)){
-        case kIconServices1024PixelDataARGB:
-        case kIconServices512PixelDataARGB:
-        case kIconServices256PixelDataARGB:
-            return [bitmap representationUsingType:NSPNGFileType properties:nil];
-    }
-    return nil;
-}
-
-NSData *dataForValue(int value){
-    // TODO: the values are in the enums, I'm just not sure how to get to them
-    NSString *string = nil;
-    switch(value){
-        case kIconFamilyType:
-            string = @"icns";
-            break;
-        case kIconServices1024PixelDataARGB:
-            string = @"ic10";
-            break;
-        case kIconServices512PixelDataARGB:
-            string = @"ic09";
-            break;
-        case kIconServices256PixelDataARGB:
-            string = @"ic08";
-            break;
-            
-        default:
-            break;
-    }
-    return [string dataUsingEncoding:NSASCIIStringEncoding];
-}
+@interface IcnsFactory()
++ (NSData *)dataFromOSType:(OSType)OSType;
++ (NSUInteger)appendImage:(NSImage *)image toBodyData:(NSMutableData *)bodyData;
+@end
 
 @implementation IcnsFactory
 
@@ -82,24 +39,67 @@ NSData *dataForValue(int value){
     __block NSUInteger bodyLength = 0;
     __block NSMutableData *bodyData = [NSMutableData data];
     [images enumerateObjectsUsingBlock:^(NSImage *image, NSUInteger idx, BOOL *stop){
-        NSData *imageData = dataForImage(image);
-        if(imageData != nil){
-            bodyLength += [imageData length];
-            UInt32 length = flipUInt32(8 + (UInt32)[imageData length]);
-            [bodyData appendData:dataForValue(osTypeForImage(image))];
-            [bodyData appendBytes:&length length:4];
-            [bodyData appendData:imageData];
-        }
+        bodyLength += [self appendImage:image toBodyData:bodyData];
     }];
     
     NSMutableData *headerData = [NSMutableData data];
     UInt32 fileLength = flipUInt32(16 + (UInt32)bodyLength);
-    [headerData appendData:dataForValue(kIconFamilyType)];
+    [headerData appendData:[self dataFromOSType:kIconFamilyType]];
     [headerData appendBytes:&fileLength length:4];
 	[handle writeData:headerData];
 	[handle writeData:bodyData];
 	[handle closeFile];
     return YES;
+}
+
++ (NSData *)dataFromOSType:(OSType)OSType{
+    NSString *string = (__bridge NSString *)UTCreateStringForOSType(OSType);
+    return [string dataUsingEncoding:NSASCIIStringEncoding];
+}
+
++ (NSUInteger)appendImage:(NSImage *)image toBodyData:(NSMutableData *)bodyData{
+    NSBitmapImageRep *bitmap = [[NSBitmapImageRep alloc] initWithData:[image TIFFRepresentation]];
+    NSInteger pixelsWide = [bitmap pixelsWide];
+    NSInteger pixelsHigh = [bitmap pixelsHigh];
+    if(pixelsWide != pixelsHigh){
+        return 0;
+    }
+    if(pixelsWide == 1024 || pixelsWide == 512 || pixelsWide == 256){
+        NSData *imageData = [bitmap representationUsingType:NSPNGFileType properties:nil];
+        UInt32 length = flipUInt32(8 + (UInt32)[imageData length]);
+        if(pixelsWide == 1024){
+            [bodyData appendData:[self dataFromOSType:kIconServices1024PixelDataARGB]];
+        }else if(pixelsWide == 512){
+            [bodyData appendData:[self dataFromOSType:kIconServices512PixelDataARGB]];
+        }else if(pixelsWide == 256){
+            [bodyData appendData:[self dataFromOSType:kIconServices256PixelDataARGB]];
+        }
+        [bodyData appendBytes:&length length:4];
+        [bodyData appendData:imageData];
+        return [imageData length];
+    }
+    
+    BOOL isPlanar = [bitmap isPlanar];    
+    NSInteger bitsPerSample = [bitmap bitsPerSample];
+    NSInteger samplesPerPixel = [bitmap samplesPerPixel];
+    NSInteger bitsPerPixel = [bitmap bitsPerPixel];
+    NSInteger bytesPerRow = [bitmap bytesPerRow];
+    
+    if(isPlanar){
+        NSLog(@"isPlanar == YES");
+        return 0;
+    }
+    
+    if(bitsPerSample != 8){
+        NSLog(@"bitsPerSample != 8, bitsPerSample == %ld", bitsPerSample);
+        return 0;
+    }
+    
+//    unsigned char *bitmapData = [bitmap bitmapData];
+    if(pixelsWide == 128){
+        NSLog(@"%d %ld %ld %ld %ld", isPlanar, bitsPerSample, samplesPerPixel, bitsPerPixel, bytesPerRow);
+    }
+    return 0;
 }
 
 @end
